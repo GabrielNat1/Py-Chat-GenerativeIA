@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altura fixa para evitar rolagem na página */
+    overflow: hidden; /* Desativa a rolagem da página */
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 80vh; /* Define uma altura fixa para o container */
+}
+
+h1 {
+    background: #4CAF50;
+    color: white;
+    margin: 0;
+    padding: 15px;
+    text-align: center;
+}
+
+#chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto; /* Permite rolagem apenas na área de mensagens */
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre mensagens */
+}
+
+.message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message.user {
+    background: #4CAF50;
+    color: white;
+    text-align: right;
+    align-self: flex-end;
+}
+
+.message.bot {
+    background: #ddd;
+    color: black;
+    text-align: left;
+    align-self: flex-start;
+}
+
+#chat-form {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+/* Estiliza a barra de rolagem para navegadores compatíveis */
+#chat-box::-webkit-scrollbar {
+    width: 10px; /* Largura da barra de rolagem */
+}
+
+#chat-box::-webkit-scrollbar-track {
+    background: #f4f4f9; /* Cor do trilho */
+    border-radius: 5px; /* Borda arredondada */
+}
+
+#chat-box::-webkit-scrollbar-thumb {
+    background: #4CAF50; /* Cor do polegar (scroll) */
+    border-radius: 5px; /* Arredondar as extremidades */
+    border: 2px solid #f4f4f9; /* Espaço ao redor do polegar */
+}
+
+#chat-box::-webkit-scrollbar-thumb:hover {
+    background: #45a049; /* Cor do polegar ao passar o mouse */
+}
