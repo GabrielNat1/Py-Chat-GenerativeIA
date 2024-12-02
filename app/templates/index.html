@@ -5,86 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
     <link rel="stylesheet" href="/static/styles.css">
-    <link rel="icon" href="{{ url_for('static', filename='icon/chat-icon.png') }}" type="image/png">
-    
 </head>
 <body>
     <div class="chat-container">
         <h1>Chatbot</h1>
-        <div id="chat-box">
-            <!-- Mensagens serão adicionadas aqui -->
-        </div>
+        <div id="chat-box"></div>
         <form id="chat-form">
-            <input type="text" id="user-input" placeholder="Digite sua mensagem...">
-            <button type="submit">Enviar</button>
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." autocomplete="off">
+            <button type="button" id="send-button">Enviar</button>
         </form>
     </div>
 
     <script>
-        const chatForm = document.getElementById("chat-form");
         const chatBox = document.getElementById("chat-box");
         const userInput = document.getElementById("user-input");
-        const submitButton = chatForm.querySelector("button");
-    
-        // Função para simular digitação
-        function typeText(element, text, callback) {
-            let index = 0;
-            const interval = setInterval(() => {
-                if (index < text.length) {
-                    element.textContent += text.charAt(index);
-                    index++;
-                } else {
-                    clearInterval(interval);
-                    if (callback) callback(); // Chama o callback após a digitação
-                }
-            }, 30); // Velocidade da digitação (reduzido para deixar mais rápido)
-        }
-    
-        chatForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-    
-            const message = userInput.value;
+        const sendButton = document.getElementById("send-button");
+
+        sendButton.addEventListener("click", sendMessage);
+        userInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
             if (!message) return;
-    
-            // Adiciona a mensagem do usuário ao chat
+
             const userMessage = document.createElement("div");
             userMessage.className = "message user";
             userMessage.textContent = "Você: " + message;
             chatBox.appendChild(userMessage);
-    
+
             userInput.value = "";
-    
-            // Desabilita a entrada enquanto o bot responde
-            userInput.disabled = true;
-            submitButton.disabled = true;
-    
-            // Exibe o indicador de "digitando"
             const botMessage = document.createElement("div");
             botMessage.className = "message bot";
             botMessage.textContent = "Chatbot está digitando...";
             chatBox.appendChild(botMessage);
-            chatBox.scrollTop = chatBox.scrollHeight;
-    
-            // Envia a mensagem ao servidor
-            const response = await fetch("/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message }),
-            });
-    
-            const data = await response.json();
-    
-            // Substitui o texto "digitando" pela resposta real
-            botMessage.textContent = "Chatbot: ";
-            typeText(botMessage, data.response, () => {
-                // Reativa o campo de entrada e botão após o bot terminar
-                userInput.disabled = false;
-                submitButton.disabled = false;
-                userInput.focus();
-            });
-    
-            chatBox.scrollTop = chatBox.scrollHeight; 
-        });
-    </script>    
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message }),
+                });
+
+                const data = await response.json();
+                botMessage.textContent = "Chatbot: " + data.response;
+            } catch (error) {
+                botMessage.textContent = "Erro ao processar a mensagem.";
+            }
+        }
+    </script>
 </body>
 </html>

@@ -2,8 +2,8 @@ from flask import render_template, request, jsonify
 import google.generativeai as genai
 import os
 
-# Configure a chave de API
-genai.configure(api_key=os.environ['GOOGLE_AI_API_KEY'])
+
+genai.configure(api_key=os.environ["GOOGLE_AI_API_KEY"])
 model = genai.GenerativeModel('gemini-pro')
 
 from app import app
@@ -21,8 +21,8 @@ def chat():
         return jsonify({"response": "Por favor, envie uma mensagem válida."})
     
     try:
-        # Gera resposta do chatbot
         response = model.generate_content(user_input)
         return jsonify({"response": response.text})
     except Exception as e:
         return jsonify({"response": "Erro ao processar a mensagem. Tente novamente mais tarde."})
+    
