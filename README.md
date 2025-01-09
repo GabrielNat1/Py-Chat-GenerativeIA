@@ -5,6 +5,10 @@ Bem-vindo ao **Chatbot**! Este projeto foi desenvolvido para facilitar conversas
 
 ---
 
+<div style="text-align: center;">
+  <img src="https://github.com/user-attachments/assets/4005f669-93d8-4892-bca4-e46805eb8d20" alt="Descrição da imagem" width="800">
+</div>
+
 ## 🔧 Pré-requisitos
 
 Antes de começar, certifique-se de ter os seguintes itens instalados:
